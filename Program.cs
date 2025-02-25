@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System;
+﻿using System;
 using System.Data.Common;
 using System.IO;
 
@@ -33,7 +32,6 @@ namespace SupportBank
 
                 value.Owes += Amount.ConvertPoundToPence(transactionParts[4]);
 
-
                 if (!personList.TryGetValue(name2, out value))
                 {
                     value = new Person(name2);
@@ -41,8 +39,8 @@ namespace SupportBank
                 }
 
                 value.IsOwed += Amount.ConvertPoundToPence(transactionParts[4]);
-
             }
+
             return personList;
         }
     }
@@ -69,11 +67,11 @@ namespace SupportBank
 
         public static void PrintDictionary(Dictionary<string, Person> dictionary)
         {
-            Console.WriteLine("Name \t\t    Owes  \t\t  IsOwed  ");
-            Console.WriteLine("================================================");
+            Console.WriteLine("{0,-15} {1,-15} {2,-15}", "Name", "Owes", "IsOwed");
+            Console.WriteLine("============================================");
             foreach (var value in dictionary.Values)
             {
-                Console.WriteLine($"{value.Name}   {Amount.ConvertPenceToPound(value.Owes)}   {Amount.ConvertPenceToPound(value.IsOwed)}");
+                Console.WriteLine("{0,-15} {1,-15} {2,-15}", value.Name, Amount.ConvertPenceToPound(value.Owes), Amount.ConvertPenceToPound(value.IsOwed));
             }
         }
     }
@@ -103,9 +101,7 @@ namespace SupportBank
         {
             return Convert.ToDouble(pence / 100.0);
         }
-
     }
-
 }
 
 
