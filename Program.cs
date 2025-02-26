@@ -13,8 +13,10 @@ namespace SupportBank
             Dictionary<string, Person> personList = [];
             string filePath = "./data/Transactions2014.csv";
             CSVReader.ReadFile(filePath, transactions, personList);
-            Dictionary<Person,Transaction> personTransactionDetails = new Dictionary<Person, Transaction>();
+            List<string> debtList = DebtDataBuilder.BuildDebtList(personList,transactions);
+            Printer.PrintPeople(debtList);
             // Printer.PrintDictionary(personList, transactions);
+            // DebtDataBuilder
         }
     }
 }

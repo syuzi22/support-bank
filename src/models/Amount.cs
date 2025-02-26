@@ -6,9 +6,9 @@ namespace SupportBank
         {
             return Convert.ToInt32(Math.Round(Convert.ToDouble(pound), 2) * 100);
         }
-        public static double ConvertPenceToPound(int pence)
+        public static double ConvertPenceToPound(string pence)
         {
-            return Convert.ToDouble(pence / 100.0);
+            return Convert.ToDouble(pence)/ 100.0;
         }
     }
 }

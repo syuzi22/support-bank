@@ -2,19 +2,17 @@ namespace SupportBank
 {
     class Printer
     {
-        public static void PrintList(List<string> list)
-        {
-            list.ForEach(listItem => Console.WriteLine(listItem));
-        }
-
-        public static void PrintDictionary(Dictionary<string, Person> dictionary)
+        public static void PrintPeople(List<string> list)
         {
             
             Console.WriteLine("{0,-15} {1,-15} {2,-15}", "Name", "Owes", "IsOwed");
             Console.WriteLine("============================================");
-            foreach (var value in dictionary.Values)
+            foreach (var value in list)
             {
-                Console.WriteLine("{0,-15} {1,-15} {2,-15}", value.Name, Amount.ConvertPenceToPound(value.Owes), Amount.ConvertPenceToPound(value.IsOwed));
+                
+                Console.WriteLine("{0,-15} {1,-15} {2,-15}", value.Split(",")[0], 
+                Amount.ConvertPenceToPound(value.Split(",")[1]), 
+                Amount.ConvertPenceToPound(value.Split(",")[2]));
             }
         }
     }

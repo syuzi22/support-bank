@@ -31,15 +31,11 @@ namespace SupportBank
                     personList.Add(name1, value);
                 }
 
-                // value.Owes += Amount.ConvertPoundToPence(transactionParts[4]);
-
                 if (!personList.TryGetValue(name2, out value))
                 {
                     value = new Person(name2);
                     personList.Add(name2, value);
                 }
-
-                // value.IsOwed += Amount.ConvertPoundToPence(transactionParts[4]);
 
                 Transaction transaction = new Transaction(
                     Convert.ToDateTime(transactionParts[0]),
@@ -49,6 +45,7 @@ namespace SupportBank
                     Amount.ConvertPoundToPence(transactionParts[4])                 
                 );
                 transactions.Add(transaction);
+
             }
         }
     }
