@@ -6,17 +6,16 @@ namespace SupportBank
 {
     class Program
     {
-
         public static void Main(string[] args)
         {
             List<Transaction> transactions = [];
-            Dictionary<string, Person> personList = [];
+            List<Person> personList = [];
+
             string filePath = "./data/Transactions2014.csv";
-            CSVReader.ReadFile(filePath, transactions, personList);
-            List<string> debtList = DebtDataBuilder.BuildDebtList(personList,transactions);
-            Printer.PrintPeople(debtList);
-            // Printer.PrintDictionary(personList, transactions);
-            // DebtDataBuilder
+            List<string> fileLines = CSVReader.ReadFile(filePath);
+            transactions = Transaction.CreateTransactionList(fileLines);
+            personList = Person.CreatePersonList(transactions);
+            Printer.PrintAccount(personList[0]);        
         }
     }
 }
