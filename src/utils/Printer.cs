@@ -1,5 +1,3 @@
-using Microsoft.VisualBasic;
-
 namespace SupportBank
 {
     class Printer

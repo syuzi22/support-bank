@@ -1,10 +1,4 @@
-﻿using System;
-using System.Data.Common;
-using System.IO;
-using System.Linq.Expressions;
-using System.Text.RegularExpressions;
-
-namespace SupportBank
+﻿namespace SupportBank
 {
     class Program
     {
@@ -28,7 +22,7 @@ namespace SupportBank
                 {
                     Printer.PrintAccount(account);
                 }
-                else if (command == "Exit")
+                else if (command.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
                 {
                     break;
                 }
