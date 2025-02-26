@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data.Common;
 using System.IO;
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace SupportBank
 {
@@ -8,14 +10,33 @@ namespace SupportBank
     {
         public static void Main(string[] args)
         {
-            List<Transaction> transactions = [];
-            List<Person> personList = [];
-
             string filePath = "./data/Transactions2014.csv";
             List<string> fileLines = CSVReader.ReadFile(filePath);
-            transactions = Transaction.CreateTransactionList(fileLines);
-            personList = Person.CreatePersonList(transactions);
-            Printer.PrintAccount(personList[0]);        
+            List<Transaction> transactions = Transaction.CreateTransactionList(fileLines);
+            List<Person> personList = Person.CreatePersonList(transactions);
+
+            while (true)
+            {
+                Console.WriteLine("\n Please enter your command: List All, List [Account] or Exit");
+                string command = Console.ReadLine() ?? "";
+                Person? account = Person.GetPersonAccountFromInput(command, personList);
+                if (command == "List All")
+                {
+                    Printer.PrintPeople(personList);
+                }
+                else if (account != null)
+                {
+                    Printer.PrintAccount(account);
+                }
+                else if (command == "Exit")
+                {
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
         }
     }
 }

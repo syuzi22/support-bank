@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace SupportBank
 {
     public class Person(string name)
@@ -39,6 +41,22 @@ namespace SupportBank
 
             }
             return personList;
+        }
+
+        public static Person? GetPersonAccountFromInput(string input, List<Person> personList) {
+            string pattern = @"List (.+)";
+            Match match = Regex.Match(input, pattern);
+
+            if (match.Success)
+            {
+                string value =  match.Groups[1].Value;
+
+                return personList.Find(p => p.Name == value);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
