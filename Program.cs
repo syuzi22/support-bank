@@ -6,11 +6,10 @@
         {
             string filePath = "./data/Transactions2014.csv";
             List<string> fileLines = CSVReader.ReadFile(filePath);
-            List<Transaction> transactions = TransactionService.CreateTransactionList(fileLines);
-            Dictionary<string, Person> personList = PersonService.CreatePersonList(transactions);
-            ConsoleApp.Run(personList);
+            List<Transaction> transactions = CSVReader.CreateTransactionList(fileLines);
+            SupportBank supportBank = new();
+            supportBank.CreatePersonList(transactions);
+            ConsoleApp.Run(supportBank.personList);
         }
     }
 }
-
-

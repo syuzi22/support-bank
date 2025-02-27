@@ -19,13 +19,14 @@ namespace SupportBank
         }
 
         public static void PrintAccount(Person person){
-            string formatString = "{0,-15} {1,-30} {2,-15} {3,-15}";
-            Console.WriteLine(formatString, "Date", "Narrative", "To", "Amount");
+            string formatString = "{0,-15} {1,-30} {2,-15} {3,-15} {4,-15}";
+            Console.WriteLine(formatString, "Date", "Narrative", "From", "To", "Amount");
             Console.WriteLine("=====================================================================");
-            foreach (var transaction in person.Transactions.Where(t=> t.FromPerson == person.Name))
+            foreach (var transaction in person.Transactions)
             {
                 Console.WriteLine(formatString, transaction.TransactionDate.ToString("yyyy-MM-dd"), 
                 transaction.Narrative, 
+                transaction.FromPerson,
                 transaction.ToPerson,
                 AmountConversion.ConvertPenceToPound(transaction.Amount));              
             }
