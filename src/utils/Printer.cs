@@ -2,33 +2,32 @@ namespace SupportBank
 {
     class Printer
     {
-        public static void PrintPeople(List<Person> list)
+        public static void PrintPeople(Dictionary<string, Person> personList)
         {
-            
-            Console.WriteLine("{0,-15} {1,-15} {2,-15}", "Name", "Owes", "IsOwed");
+            string formatString = "{0,-15} {1,-15} {2,-15}";
+            Console.WriteLine(formatString, "Name", "Owes", "IsOwed");
             Console.WriteLine("============================================");
-            int owes ;
-            int isOwed;
-            foreach (var value in list)
+            foreach (var person in personList.Values)
             {
-                owes = value.Transactions.Where(t=>t.FromPerson ==value.Name).Sum(s=>s.Amount);
-                isOwed = value.Transactions.Where(t=>t.ToPerson ==value.Name).Sum(s=>s.Amount);
+                int owes = person.GetPersonOwes();
+                int isOwed = person.GetPersonIsOwed();
 
-                Console.WriteLine("{0,-15} {1,-15} {2,-15}", value.Name, 
+                Console.WriteLine(formatString, person.Name, 
                 AmountConversion.ConvertPenceToPound(owes), 
                 AmountConversion.ConvertPenceToPound(isOwed));
             }
         }
 
         public static void PrintAccount(Person person){
-            Console.WriteLine("{0,-15} {1,-30} {2,-15} {3,-15}", "Date", "Narrative", "To", "Amount");
+            string formatString = "{0,-15} {1,-30} {2,-15} {3,-15}";
+            Console.WriteLine(formatString, "Date", "Narrative", "To", "Amount");
             Console.WriteLine("=====================================================================");
-            foreach (var item in person.Transactions.Where(t=> t.FromPerson == person.Name))
+            foreach (var transaction in person.Transactions.Where(t=> t.FromPerson == person.Name))
             {
-                Console.WriteLine("{0,-15} {1,-30} {2,-15} {3,-15}", item.TransactionDate.ToString("yyyy-MM-dd"), 
-                (item.Narrative), 
-                (item.ToPerson),
-                AmountConversion.ConvertPenceToPound(item.Amount));              
+                Console.WriteLine(formatString, transaction.TransactionDate.ToString("yyyy-MM-dd"), 
+                transaction.Narrative, 
+                transaction.ToPerson,
+                AmountConversion.ConvertPenceToPound(transaction.Amount));              
             }
         }
     }
