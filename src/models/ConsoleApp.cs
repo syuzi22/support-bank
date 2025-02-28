@@ -9,15 +9,15 @@ namespace SupportBank
             bool keepRunning = true;
             while (keepRunning)
             {
-                Console.WriteLine("\n Please enter your command: List All, List [Account] or Exit");
+                Console.WriteLine("\n Please enter one of the following commands: List All, List [Account] or Exit");
                 string command = Console.ReadLine() ?? "";
-                Person? account = GetPersonAccountFromInput(command, personList);
                 switch (true)
                 {
                     case bool when command.Contains("List All", StringComparison.CurrentCultureIgnoreCase):
                         Printer.PrintPeople(personList);
                         break;
                     case bool when command.Contains("List", StringComparison.CurrentCultureIgnoreCase):
+                        Person? account = GetPersonAccountFromInput(command, personList);
                         if (account != null)
                         {
                             Printer.PrintAccount(account);
@@ -29,7 +29,11 @@ namespace SupportBank
                         break;
                     case bool when command.Contains("exit", StringComparison.CurrentCultureIgnoreCase):
                         keepRunning = false;
-                        break;                        
+                        break;
+                    default:
+                        Console.WriteLine("Invalid command.");
+                        break;
+
                 }
             }
         }
@@ -46,11 +50,10 @@ namespace SupportBank
                 {
                     return null;
                 }
-
                 return person;
             }
             else
-            {
+            {                
                 return null;
             }
         }
