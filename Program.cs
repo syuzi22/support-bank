@@ -1,38 +1,56 @@
-﻿namespace SupportBank
+﻿using NLog;
+using NLog.Config;
+using NLog.Targets;
+namespace SupportBank
 {
     class Program
     {
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
         public static void Main(string[] args)
         {
             string filePath = "./data/Transactions2014.csv";
-            List<string> fileLines = CSVReader.ReadFile(filePath);
-            List<Transaction> transactions = Transaction.CreateTransactionList(fileLines);
-            List<Person> personList = Person.CreatePersonList(transactions);
+            //string filePath = "./data/DodgyTransactions2015.csv";
+            var config = new LoggingConfiguration();
+            var target = new FileTarget { FileName = @"C:\Work\Logs\SupportBank.log", Layout = @"${longdate} ${level} - ${logger}: ${message}" };
+            config.AddTarget("File Logger", target);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, target));
+            LogManager.Configuration = config;
 
-            while (true)
+            try
             {
-                Console.WriteLine("\n Please enter your command: List All, List [Account] or Exit");
-                string command = Console.ReadLine() ?? "";
-                Person? account = Person.GetPersonAccountFromInput(command, personList);
-                if (command == "List All")
+                Logger.Debug("Application started.");
+                List<string> fileLines = CSVReader.ReadFile(filePath)??
+                     throw new FormatException("CSV file is not in a proper format.");
+                List<Transaction> transactions = CSVReader.CreateTransactionList(fileLines);
+                if (transactions.Count == 0)
                 {
-                    Printer.PrintPeople(personList);
-                }
-                else if (account != null)
-                {
-                    Printer.PrintAccount(account);
-                }
-                else if (command.Equals("exit", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    break;
+                    Logger.Warn("No transactions present.");
                 }
                 else
                 {
-                    continue;
+                    Logger.Debug("Transactions created successfully.");
                 }
+                SupportBank supportBank = new();
+                supportBank.CreatePersonList(transactions);
+                Logger.Debug("Personlist created successfully.");
+                ConsoleApp.Run(supportBank.personList);
+                Logger.Debug("Application ended successfully.");
+
             }
+            catch (FormatException)
+            {
+                throw;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }
-
-
